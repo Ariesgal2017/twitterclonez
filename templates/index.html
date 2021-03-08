@@ -1,0 +1,21 @@
+{% block content %}
+{% if user.is_authenticated %}
+<h1 style='text-align:center; color:yellow; font-size:100px'>TwitterClone</h1><button>{{authentication.logout}}Logout</button>
+<button><a href='/add/'>Add Tweet</a></button>
+<body style="background-color:black">
+<span style='color:cyan; text-align:center; font-size:40px'>User: {{request.user}}</span>
+{% for tweet in tweets %}
+<ul style="background-color:lightgray; font-size:25px; text-align:center">
+    <li style="text-align:center">
+   Author: {{tweet.author}}
+   </li>
+   <p >
+   date posted: {{tweet.date_posted}}
+    Tweet: {{tweet.content}}
+    </p>
+</ul>
+    {% endfor %}
+=</body>
+{% endif %}
+<button><a href="admin">Login</button>
+{% endblock %}

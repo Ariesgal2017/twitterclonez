@@ -1,0 +1,14 @@
+
+<button><a href='/'>Back</a></button>
+<h1 style='color: hotpink; text-align:center; font-size:90px'>{{request.user}}'s Profile page</h1>
+<h2 style='color:yellow; font-size:55px; text-align:center'>{{request.user}}'s Tweets</h2>
+<button><a href='/add/'>Add Tweet</a></button>
+{% for tweet in tweets %}
+<li style="background-color:lightgray; text-align:center">
+   date posted: {{tweet.date_posted}}
+
+    Tweet: {{tweet.content}}
+    </li>
+    {% endfor %}
+    
+<h4 style='color:lime; text-align:center'>{{request.user}} has {{followers.count}} Followers</h4>

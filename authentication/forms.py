@@ -1,7 +1,6 @@
 from django import forms
-from django.contrib.auth.models import AbstractUser
 
 
-class LoginForm(AbstractUser):
-    username = forms.CharField(widget=username)
-    password = forms.PasswordInput()
+class LoginForm(forms.Form):
+    username = forms.CharField(max_length=50)
+    password = forms.CharField(widget=forms.PasswordInput)

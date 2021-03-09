@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect, HttpResponseRedirect, reverse, render
+from authentication.forms import LoginForm
 
 
 
@@ -18,18 +19,16 @@ def registerPage(request):
         return render(request, 'register.html', context)
 
 def loginPage(request):
-    if request.user.is_authenticated:
-        return redirect('index')
-    else:
-        if request.method == 'POST':
-            username = request.POST.get('username')
-            password = request.POST.get('password')
-
-            user = authenticate(request, username=username, password=password)
-
+    if request.method == "POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            user = authenticate(
+                request, username=data['username'], password=data['password']
+                )
             if user:
                 login(request, user)
-                return redirect('home')
-        context = {}
-        return render(request, 'login.html', context)
+                return HttpResponseRedirect(request.GET.get('next', reverse("home")))
 
+    form = LoginForm()
+    return render(request, "login.html", {'form': form})

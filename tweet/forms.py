@@ -1,5 +1,5 @@
 from django import forms
 
 class TweetForm(forms.Form):
-    content = forms.CharField(max_length=180)
+    content = forms.CharField(widget=forms.Textarea)
 

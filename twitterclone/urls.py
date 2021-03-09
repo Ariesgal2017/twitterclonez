@@ -18,16 +18,19 @@ from django.urls import path, include
 from tweet.views import index, new_tweet
 from authentication.views import loginPage, registerPage
 from django.urls import path
-from twitteruser.views import Profile
+from twitteruser.views import Profile, userProfile, follow, unFollow
 from django.views.generic.base import TemplateView # new
-
+from authentication.views import loginPage
 
 urlpatterns = [
+    path('unfollow/<str:username>/', unFollow, name="unfollow"),
+    path('follow/<str:username>/', follow, name="follow"),
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
     path('templates/', include('django.contrib.auth.urls')),
-    path('profile/', Profile, name='profile'),
+    path('profile/<str:username>/', Profile, name='profile'),
+    path('userprofile/<str:username>/', userProfile, name='userprofile'),
     path('register/', registerPage, name="register"),
-    path('login/', admin.site.urls, name="login"),
+    path('login/', loginPage, name="login"),
     path('index/', index, name='index'),
     path('add/', new_tweet, name='new_tweet'),
     path('admin/', admin.site.urls),

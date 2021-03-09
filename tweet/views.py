@@ -1,6 +1,7 @@
 from django.shortcuts import render, reverse, HttpResponseRedirect
 from .models import Tweet
 from .forms import TweetForm
+from authentication.forms import LoginForm
 # Create your views here.
 
 
@@ -22,8 +23,8 @@ def new_tweet(request):
                 content=data['content'],
                 author=request.user
             )
-            return HttpResponseRedirect(reverse("profile"))
-    form=TweetForm()
+            return HttpResponseRedirect(reverse("profile", args=[request.user]))
+    form=TweetForm()   
     context.update({'message': "Submitted Successfully!!!!! YAY!"})
     form = TweetForm()
     context.update({'form': form})

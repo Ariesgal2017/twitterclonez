@@ -1,23 +1,20 @@
-
-<button><a href='/'>Back</a></button>
-<h1 style='color: hotpink; text-align:center; font-size:90px'>{{request.user}}'s Profile page</h1>
-<h2 style='color:yellow; font-size:55px; text-align:center'>{{request.user}}'s Tweets</h2>
-<button><a href='/add/'>Add Tweet</a></button>
+<a href='/'>BACK</a>
+<body style='background-color:black'
+<a href='/'>Back</a>
+<h1 style='background-color:black;color: hotpink; text-align:center; font-size:90px'>{{twitteruser.username}}'s Profile page</h1>
+{% comment %} {% if TwitterUser.username == tweets.author%} {% endcomment %}
 {% for tweet in tweets %}
-<li style="background-color:lightgray; text-align:center">
+<li style="background-color:lightgray; font-size:25px; text-align:center">
+   <a href='/detail/{{tweet.id}}/'>
    date posted: {{tweet.date_posted}}
 
-    Tweet: {{tweet.content}}
+    Tweet: {{tweet.content}} 
+    </a>
     </li>
-    
     {% endfor %}
-    {% if tweets != request.user %}
-        {% if tweets in user.following.all %}
-        <a href="/unfollow/{{request.user}}"><button>UnFollow</button></a>
-        {% else %}
-        <a href="/follow/{{request.user}}"><button>Follow</button></a>
-        {% endif %}
-    {% endif %}
-
-    
-<h4 style='color:lime; text-align:center'>{{request.user}} has {{follower.count}} Followers</h4>
+    {% comment %} {% endif %} {% endcomment %}
+        <a href="/unfollow/{{twitteruser.username}}"><button>UnFollow</button></a>
+        <a href="/follow/{{twitteruser.username}}"><button>Follow</button></a>
+    <h4 style='color:lime; text-align:center'>{{twitteruser}} has {{users.count}} Followers</h4>
+    <h4 style='color:lime; text-align:center'>{{twitteruser}} has {{tweets.count}} Tweets</h4>
+    </body>

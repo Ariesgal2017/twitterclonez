@@ -15,23 +15,28 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from tweet.views import index, new_tweet
+from tweet.views import index, new_tweet, detail_tweet
 from authentication.views import loginPage, registerPage
 from django.urls import path
 from twitteruser.views import Profile, userProfile, follow, unFollow
 from django.views.generic.base import TemplateView # new
-from authentication.views import loginPage
+from authentication.views import loginPage, logoutview
+from notification.views import notification_view
 
 urlpatterns = [
+    path('notification/', notification_view),
+    path('detail/<int:id>/', detail_tweet),
     path('unfollow/<str:username>/', unFollow, name="unfollow"),
     path('follow/<str:username>/', follow, name="follow"),
-    path('', TemplateView.as_view(template_name='home.html'), name='home'),
-    path('templates/', include('django.contrib.auth.urls')),
-    path('profile/<str:username>/', Profile, name='profile'),
+    # path('', TemplateView.as_view(template_name='home.html'), name='home'),
+    # path('templates/', include('django.contrib.auth.urls')),
+    # path('profile/<str:username>/', Profile, name='profile'),
     path('userprofile/<str:username>/', userProfile, name='userprofile'),
     path('register/', registerPage, name="register"),
     path('login/', loginPage, name="login"),
-    path('index/', index, name='index'),
+    path('', index, name='home'),
     path('add/', new_tweet, name='new_tweet'),
     path('admin/', admin.site.urls),
+    path('logout/', logoutview)
 ]
+

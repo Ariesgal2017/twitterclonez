@@ -29,20 +29,20 @@ def Profile(request, username):
         'tweets': tweets,
         'follower': follower,  
     })
-    return HttpResponseRedirect(reverse('profile', args=[user.username]), {'tweet':tweet})
+    return HttpResponseRedirect(reverse('profile', args=[user.username]), {'tweets':tweets})
 
 
 def userProfile(request, username):
-    tweet = Tweet.objects.all()
-    tweets = TwitterUser.objects.get(username=username)
-    tweet_obj = Tweet.objects.filter(author=tweets).order_by('-date_posted')
-    users = tweets.follow_users.all()
+    # tweet = Tweet.objects.all()
+    twitteruser = TwitterUser.objects.filter(username=username).first()
+    tweets = Tweet.objects.filter(author=twitteruser)
+    users = twitteruser.follow_users.all()
     return render(request, 'profile.html', {
-        'tweet': tweets,
-        'tweet_obj': tweet_obj,
+        'tweets': tweets,
         'users': users,
+        'twitteruser': twitteruser,
     })
-    return HttpResponseRedirect(reverse('profile'), {'tweets':tweets})
+    return render(request, 'profile.html', {'tweets': tweets})
 
 
 
@@ -52,7 +52,9 @@ def registerPage(request):
     if request.method == 'POST':   
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save(commit=False)
+            user.follow_users.add(user)
+            user.save()
 
     context = {'form':form}
     return render(request, 'account/register.html', context)

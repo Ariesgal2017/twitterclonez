@@ -1,21 +1,29 @@
+<a href='/logout/'><button>Logout</button></a>
 {% block content %}
 {% if user.is_authenticated %}
-<h1 style='text-align:center; color:yellow; font-size:100px'>TwitterClone</h1><button>{{authentication.logout}}Logout</button>
+<h2 style='text-align:center; color:yellow; font-size:100px'>TwitterClone</h2> 
 <button><a href='/add/'>Add Tweet</a></button>
+<a href='/userprofile/{{user.username}}/'><button>Profile Page</button></a>
 <body style="background-color:black">
 <span style='color:cyan; text-align:center; font-size:40px'>User: {{request.user}}</span>
+{% if user.is_authenticated %}
+    <div style="text-align:center; color: yellow">
+    <a href='/notification/'>Notifications: {{notifications.count}}</a>
+    </div>
+{%endif%}
 {% for tweet in tweets %}
 <ul style="background-color:lightgray; font-size:25px; text-align:center">
     <li style="text-align:center">
-   Author: {{tweet.author}}
-   </li>
-   <p >
+   Author:<a href='/userprofile/{{tweet.author.username}}/'>{{tweet.author}}</a>
    date posted: {{tweet.date_posted}}
-    Tweet: {{tweet.content}}
+   </li>
+   <p>
+    Tweet: <a href='/detail/{{tweet.id}}/'>
+    {{tweet.content}}
+    </a>
     </p>
 </ul>
     {% endfor %}
-=</body>
+</body>
 {% endif %}
-<button><a href="admin">Login</button>
 {% endblock %}

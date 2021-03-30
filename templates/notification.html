@@ -1,0 +1,11 @@
+<a href='/'>BACK</a>
+<body style='background-color:black;color:yellow'>
+<h1 style='text-align:center;font-size:40px'>Notifications:</h1>
+{% for note in notifications %}
+<div style='color:lime'>
+User {{note.tweet_notify.author}} <br />
+tweeted: {{note.tweet_notify.content}} <br />
+
+{% endfor %}
+
+</body>

@@ -1,22 +1,28 @@
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect, HttpResponseRedirect, reverse, render
-from authentication.forms import LoginForm
+from authentication.forms import LoginForm, AddUser
+from twitteruser.models import TwitterUser
 
 
 
 def registerPage(request):
-    if request.user.is_authenticated:
-        return redirect('index')
-    else:
-        form = CreateUserForm()
+    form = AddUser()
+    if request.method == 'POST':
+        form =AddUser(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            user = TwitterUser.objects.create_user(
+                username=data['username'],
+                password=data['password'],
+                display_name=data['display_name'],
+            )
+            user.follow_users.add(user)
+            user.save()
+            login(request, user)
+            return HttpResponseRedirect(reverse('home'))  
 
-        if request.method == 'POST':
-            form = CreateUserForm(request.POST)
-            if form.is_valid():
-                form.save()
-                user = form.cleaned_data.get('username')
-        context = {'form': form}
-        return render(request, 'register.html', context)
+    context = {'form': form}
+    return render(request, 'register.html', context)
 
 def loginPage(request):
     if request.method == "POST":
@@ -32,3 +38,8 @@ def loginPage(request):
 
     form = LoginForm()
     return render(request, "login.html", {'form': form})
+
+def logoutview(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('login'))
+    

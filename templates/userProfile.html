@@ -1,0 +1,25 @@
+
+<button><a href='/'>Back</a></button>
+<h1 style='color: hotpink; text-align:center; font-size:90px'>{{request.user}}'s Profile page</h1>
+<h2 style='color:yellow; font-size:55px; text-align:center'>{{request.user}}'s Tweets</h2>
+<button><a href='/add/'>Add Tweet</a></button>
+{% for tweet in Tweets %}
+<li style="background-color:lightgray; text-align:center">
+   date posted: {{tweet.date_posted}}
+
+    Tweet: {{tweets.content}}
+    </li>
+      {% comment %} 'tweets': tweets,
+        'tweet_obj': tweet_obj,
+        'users': users, {% endcomment %}
+    
+    {% endfor %}
+    {% if tweet != request.user %}
+        {% if tweet in user.following.all %}
+        <a href="/unfollow/{{TwitterUser.username}}"><button>UnFollow</button></a>
+        {% else %}
+        <a href="/follow/{{TwitterUser.username}}"><button>Follow</button></a>
+    {% endif %}
+
+    
+<h4 style='color:lime; text-align:center'>{{request.user}} has {{followers.count}} Followers</h4>
